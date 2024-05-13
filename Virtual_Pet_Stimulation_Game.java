@@ -1,7 +1,7 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Pet {     // creating the base class pet 
-
     private String name;    // Providing attributes of a pet
     private int age;
     private String color;
@@ -40,7 +40,12 @@ class Pet {     // creating the base class pet
     public int get_Hunger_Level () {
         return hunger_Level;
     }
-
+    public int get_Times_Feeded () {
+        return times_Feeded;
+    }
+    public int get_Times_Played () {
+        return times_Played;
+    }
     public void set_Name (String new_Name) {        // Providing setter methods to change the attributes of a pet
         this.name = new_Name;
     }
@@ -123,14 +128,7 @@ class Pet {     // creating the base class pet
         }
     }
     public void pet_Information () {    // Method for detailed information of pet
-        System.out.println("Detailed information about your pet:");
-        System.out.println("    1. Name: "+name);
-        System.out.println("    2. Age: "+age);
-        System.out.println("    3. Color: "+color);
-        System.out.println("    4. Happiness Level: "+happiness_Level);
-        System.out.println("    5. Hunger Level: "+hunger_Level);
-        System.out.println("    6. Times feeded: "+times_Feeded);
-        System.out.println("    7. Times played: "+times_Played);
+        // This method will be overridden
     }
 }
 class Dog extends Pet {     // Cerating dog sub-class
@@ -156,7 +154,7 @@ class Dog extends Pet {     // Cerating dog sub-class
         System.out.println("Current happiness level of your dog is: "+this.get_Happiness_Level());
     }
     public void sleep () {
-        System.out.println("Your pet dog "+this.get_Name()+" is sleeping");
+        System.out.println("Your pet dog "+super.get_Name()+" is sleeping");
     }
     public void makeSound () {
         System.out.println("Your pet dog "+this.get_Name()+" is barking.");
@@ -168,6 +166,16 @@ class Dog extends Pet {     // Cerating dog sub-class
         System.out.println("      Per feeding happiness level is increased by 7");
         System.out.println("      Per playing hunger level increased by 4");
         System.out.println("      Per playing happiness level is increased by 5");
+    }
+    public void pet_Infromation () {
+        System.out.println("Detailed information about your pet:");
+        System.out.println("    1. Name: "+get_Name());               // To test this line 
+        System.out.println("    2. Age: "+get_Age());
+        System.out.println("    3. Color: "+get_color());
+        System.out.println("    4. Happiness Level: "+get_Happiness_Level());
+        System.out.println("    5. Hunger Level: "+get_Hunger_Level());
+        System.out.println("    6. Times feeded: "+get_Times_Feeded());
+        System.out.println("    7. Times played: "+get_Times_Played());
     }
 }
 class Cat extends Pet {     // creating Cat sub-class
@@ -206,6 +214,17 @@ class Cat extends Pet {     // creating Cat sub-class
         System.out.println("      Per playing hunger level increased by 3");
         System.out.println("      Per playing happiness level is increased by 3");
     }
+    public void pet_Infromation () {
+        System.out.println("Detailed information about your pet:");
+        System.out.println("    1. Name: "+get_Name());
+        System.out.println("    2. Age: "+get_Age());
+        System.out.println("    3. Color: "+get_color());
+        System.out.println("    4. Smelling distance power: "+smelling_Distance_Power);
+        System.out.println("    5. Happiness Level: "+get_Happiness_Level());
+        System.out.println("    6. Hunger Level: "+get_Hunger_Level());
+        System.out.println("    7. Times feeded: "+get_Times_Feeded());
+        System.out.println("    8. Times played: "+get_Times_Played());
+    }
 }
 class Bird extends Pet {    // creating Bird sub class
     double wingspan;
@@ -243,10 +262,21 @@ class Bird extends Pet {    // creating Bird sub class
         System.out.println("      Per playing hunger level increased by 3");
         System.out.println("      Per playing happiness level is increased by 4");
     }
+    public void pet_Infromation () {
+        System.out.println("Detailed information about your pet:");
+        System.out.println("    1. Name: "+get_Name());
+        System.out.println("    2. Age: "+get_Age());
+        System.out.println("    3. Color: "+get_color());
+        System.out.println("    4. Wingspan: "+wingspan);
+        System.out.println("    5. Happiness Level: "+get_Happiness_Level());
+        System.out.println("    6. Hunger Level: "+get_Hunger_Level());
+        System.out.println("    7. Times feeded: "+get_Times_Feeded());
+        System.out.println("    8. Times played: "+get_Times_Played());
+    }
 }
 public class Virtual_Pet_Stimulation_Game {
 
-    Scanner var;        // Declearing scanner class variable var which will be accessed by all the methods of this class 
+    Scanner var;        // Declearing scanner class variable var which will be accessed by all  methods of this class 
 
     private Pet dog;         // Creating class memeber objects for each type of animal (generic)
     private Pet cat;
@@ -273,35 +303,55 @@ public class Virtual_Pet_Stimulation_Game {
 
         switch (user_word) {                                      
             case "CD":          // For Dog
+                int dog_Age;
                 System.out.println("Please enter the detail of your Dog:");                 
                 System.out.println("Dog name:");
                 String dog_Name = var.nextLine();
                 System.out.println("Dog age:"); 
-                int dog_Age = var.nextInt();
+                try {
+                    dog_Age = var.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Sorry, you can enter the dog age only in Positive Integer. Please re-enter your dog age again.");
+                    var.nextLine();
+                    dog_Age = var.nextInt();
+                }
                 var.nextLine();
                 System.out.println("Dog color:");
                 String dog_Color = var.nextLine();
                 System.out.println("Dog breed:");
                 String breed = var.nextLine();
 
-                dog = new Dog (dog_Name, dog_Age, dog_Color, breed);           
+                dog = new Dog (dog_Name, dog_Age, dog_Color, breed);    
                 dog.pet_Description();
                 System.out.println("\nYour pet dog "+dog_Name+" has successfully created.");
 
                 this.catalgoue_List();
                 break;
             case "CC":    // For Cat
+                int cat_Age;
+                double smelling_Distance_Power;
                 System.out.println("Please enter the detail of your Cat:");
                 System.out.println("Cat name:");    
                 String cat_Name = var.nextLine();
                 System.out.println("Cat age:"); 
-                int cat_Age = var.nextInt();
+                try {
+                    cat_Age = var.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Sorry, you can enter the cat age only in Positive Integer. Please re-enter your cat age again.");
+                    var.nextLine();
+                    cat_Age = var.nextInt();
+                }         
                 System.out.println("Cat color:");
                 var.nextLine();
                 String cat_Color = var.nextLine();
                 System.out.println("Smelling distance power of cat:");
-                double smelling_Distance_Power = var.nextDouble();
-
+                try {
+                    smelling_Distance_Power = var.nextDouble();
+                } catch (InputMismatchException e) {
+                    System.out.println("Sorry, you can enter the cat smelling distance power only in Positive decimal number. Please re-enter your cat smelling distance power again.");
+                    var.nextLine();
+                    smelling_Distance_Power = var.nextDouble();
+                }         
                 cat = new Cat (cat_Name, cat_Age, cat_Color, smelling_Distance_Power);               
                 cat.pet_Description();
                 System.out.println("\nYour pet cat "+cat_Name+" has successfully created.");
@@ -309,17 +359,30 @@ public class Virtual_Pet_Stimulation_Game {
                 this.catalgoue_List();
                 break;
             case "CB":  // For Bird
+                int bird_Age;
+                double wingspan;
                 System.out.println("Please enter the detail of your Cat:");                 
                 System.out.println("Bird name:");    
                 String bird_Name = var.nextLine();
                 System.out.println("Bird age:"); 
-                int bird_Age = var.nextInt();
+                try {
+                    bird_Age = var.nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Sorry, you can enter the bird age only in Positive Integer. Please re-enter your bird age again.");
+                    var.nextLine();
+                    bird_Age = var.nextInt();
+                }         
                 var.nextLine();
                 System.out.println("Bird color:");
                 String bird_Color = var.nextLine();
                 System.out.println("Wingspan:");
-                double wingspan = var.nextDouble();
-
+                try {
+                    wingspan = var.nextDouble();
+                } catch (InputMismatchException e) {
+                    System.out.println("Sorry, you can enter the bird wingspan only in Positive deciaml number. Please re-enter your bird wingspan again.");
+                    var.nextLine();
+                    wingspan = var.nextDouble();
+                }         
                 bird = new Bird (bird_Name, bird_Age, bird_Color, wingspan);    
                 bird.pet_Description();
                 System.out.println("\nYour pet bird "+bird_Name+" has successfully created.");
@@ -350,27 +413,7 @@ public class Virtual_Pet_Stimulation_Game {
             this.repeatable_Game_Catalogue_Part();
         }
     }
-    public void repeatable_Game_Catalogue_Part() {              // For game catalgoue     
-        System.out.println("\nGame Catalogue:");          // Showing the game catalogue
-        System.out.println("    1. If you want to fed your pet then, 'FYP'");
-        System.out.println("    2. If you want to play with your pet then, 'PYP'");
-        System.out.println("    3. If you want to make your pet to sleep then, 'SYP'");
-        System.out.println("    4. If you want to make your pet to make sound then, 'MSYP'");
-        System.out.println("    5. If you want to check status of your pet then, 'CSYP'.");
-        System.out.println("    6. If you want to check health of your pet then, 'CHYP");
-        System.out.println("    7. If you want to see the details of your pet then, 'SPD'");
-        System.out.println("    8. If you want to see the description of each pet again then, 'SDEP'");
-        System.out.println("    9. If you want to shift catalogue then, 'SC'");
-        System.out.println("    10. To quit 'Q'\n");
-
-        var = new Scanner (System.in);
-        System.out.println("Please enter your order:");
-        String user_Order = var.next();
-        var.nextLine();
-
-        System.out.println("Enter name of the animal (provide generic name):");
-        String user_Pet_Name = var.nextLine();
-
+    public void repeatable_Game_Catalogue_Part_Backend (String user_Order,String user_Pet_Name) {
         switch (user_Order) {
             case "FYP":     // To fed your pet 
                 switch (user_Pet_Name) {
@@ -538,7 +581,7 @@ public class Virtual_Pet_Stimulation_Game {
                         break;
                     case "Bird":
                         if (bird != null) {
-                            bird.pet_Information();
+                            cat.pet_Information();
                             this.repeatable_Game_Catalogue_Part();  
                         }
                     break;
@@ -578,24 +621,58 @@ public class Virtual_Pet_Stimulation_Game {
                 this.repeatable_Game_Catalogue_Part();
         }
     }
-    public void pet_Settings_Frontend () {                  // To chgange pet settings  
-        System.out.println("Your pet settings:");       // Showing the command to change the description of your pet
-        System.out.println("    1. If you want to change the name of your pet then, 'CNYP'");
-        System.out.println("    2. If you want to change the age of your pet then, 'CAYP'");
-        System.out.println("    3. If you want to change the color of your pet then, CCYP'");
-        System.out.println("    4. If you want to create a new pet (of different type) then, 'CNP'");      
-        System.out.println("    5. If you want to shift catalogue then, 'SC'");
-        System.out.println("    6. To quit 'Q'\n");
+    public void repeatable_Game_Catalogue_Part() {              // For game catalgoue     
+        System.out.println("\nGame Catalogue:");          // Showing the game catalogue
+        System.out.println("    1. If you want to fed your pet then, 'FYP'");
+        System.out.println("    2. If you want to play with your pet then, 'PYP'");
+        System.out.println("    3. If you want to make your pet to sleep then, 'SYP'");
+        System.out.println("    4. If you want to make your pet to make sound then, 'MSYP'");
+        System.out.println("    5. If you want to check status of your pet then, 'CSYP'.");
+        System.out.println("    6. If you want to check health of your pet then, 'CHYP");
+        System.out.println("    7. If you want to see the details of your pet then, 'SPD'");
+        System.out.println("    8. If you want to see the description of each pet again then, 'SDEP'");
+        System.out.println("    9. If you want to shift catalogue then, 'SC'");
+        System.out.println("    10. To quit 'Q'\n");
 
-        Scanner var = new Scanner (System.in);
+        var = new Scanner (System.in);
         System.out.println("Please enter your order:");
         String user_Order = var.next();
         var.nextLine();
 
-        System.out.println("Enter name of the animal (provide generic name & it should be prepared in advance, earlier) with to change the description of your pet:");
-        String user_Pet_Name = var.nextLine();
-        
+        System.out.println("Enter name of the animal (provide generic name):");
+        String user_Pet_Name = var.next();
 
+        switch (user_Pet_Name) {
+            case "Dog":
+                if (dog != null){
+                    this.repeatable_Game_Catalogue_Part_Backend(user_Order, user_Pet_Name);
+                } else {
+                    System.out.println("Sorry, you don't have created any pet with this name.");
+                    this.repeatable_Creating_Pet_Part();
+                }
+                break;
+            case "Cat" :
+                if (cat != null){
+                    this.repeatable_Game_Catalogue_Part_Backend(user_Order, user_Pet_Name);
+                } else {
+                    System.out.println("Sorry, you don't have created any pet with this name.");
+                    this.repeatable_Creating_Pet_Part();
+                }
+                break;
+            case "Bird":
+                if (bird != null) {
+                    this.repeatable_Game_Catalogue_Part_Backend(user_Order, user_Pet_Name);;
+                } else {
+                    System.out.println("Sorry, you don't have created any pet with this name.");
+                    this.repeatable_Creating_Pet_Part();
+                }
+                break;
+            default:
+                System.out.println("Sorry, you are run out of options.");
+        }
+
+    }
+    public void pet_Settings_Backend (String user_Order, String user_Pet_Name) {
         switch (user_Order) {
             case "CNYP":        // To change the name of the pet 
                 switch (user_Pet_Name) {
@@ -631,25 +708,46 @@ public class Virtual_Pet_Stimulation_Game {
             case "CAYP":        // To change the age of the pet 
                 switch (user_Pet_Name) {
                     case "Dog":
+                        int new_Dog_Age;
                         if (dog != null) {
                             System.out.println("Enter your new age of your dog");
-                            int new_Dog_Age = var.nextInt();
+                            try {
+                                new_Dog_Age = var.nextInt();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Sorry, you can enter the dog age only in Positive Integer. Please re-enter your dog age again.");
+                                var.nextLine();
+                                new_Dog_Age = var.nextInt();
+                            }
                             dog.set_Age(new_Dog_Age);   
                             this.pet_Settings_Frontend();
                         }
                         break;
                     case "Cat":
                         if (cat != null) {
+                            int new_Cat_Age;
                             System.out.println("Enter  the new age of your cat:");
-                            int new_Cat_Age = var.nextInt();
+                            try {
+                                new_Cat_Age = var.nextInt();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Sorry, you can enter the cat age only in Positive Integer. Please re-enter your cat age again.");
+                                var.nextLine();
+                                new_Cat_Age = var.nextInt();
+                            }         
                             cat.set_Age(new_Cat_Age);   
                             this.pet_Settings_Frontend();
                         } 
                         break;
                     case "Bird":
+                        int new_Bird_Age;
                         if (bird != null) {
                             System.out.println("Enter your new age of your bird:");
-                            int new_Bird_Age = var.nextInt();
+                            try {
+                                new_Bird_Age = var.nextInt();
+                            } catch (InputMismatchException e) {
+                                System.out.println("Sorry, you can enter the bird age only in Positive Integer. Please re-enter your bird age again.");
+                                var.nextLine();
+                                new_Bird_Age = var.nextInt();
+                            }         
                             bird.set_Age(new_Bird_Age);   
                             this.pet_Settings_Frontend();
                     }
@@ -703,6 +801,51 @@ public class Virtual_Pet_Stimulation_Game {
             default:    // To repeat the pet settings part if your ran our of options
                 System.out.println("Sorry, you are run out of options.");
                 this.pet_Settings_Frontend();
+        }
+    }
+    public void pet_Settings_Frontend () {                  // To chgange pet settings  
+        System.out.println("Your pet settings:");       // Showing the command to change the description of your pet
+        System.out.println("    1. If you want to change the name of your pet then, 'CNYP'");
+        System.out.println("    2. If you want to change the age of your pet then, 'CAYP'");
+        System.out.println("    3. If you want to change the color of your pet then, CCYP'");
+        System.out.println("    4. If you want to create a new pet (of different type) then, 'CNP'");      
+        System.out.println("    5. If you want to shift catalogue then, 'SC'");
+        System.out.println("    6. To quit 'Q'\n");
+
+        Scanner var = new Scanner (System.in);
+        System.out.println("Please enter your order:");
+        String user_Order = var.next();
+        var.nextLine();
+
+        System.out.println("Enter name of the animal (provide generic name & it should be prepared in advance, earlier) with to change the description of your pet:");
+        String user_Pet_Name = var.nextLine();
+        switch (user_Pet_Name) {
+            case "Dog":
+                if (dog != null){
+                    this.pet_Settings_Backend(user_Order, user_Pet_Name);
+                } else {
+                    System.out.println("Sorry, you don't have created any pet with this name.");
+                    this.pet_Settings_Frontend();
+                }
+                break;
+            case "Cat" :
+                if (cat != null){
+                    this.pet_Settings_Backend(user_Order, user_Pet_Name);
+                } else {
+                    System.out.println("Sorry, you don't have created any pet with this name.");
+                    this.pet_Settings_Frontend();
+                }
+                break;
+            case "Bird":
+                if (bird != null) {
+                    this.pet_Settings_Backend(user_Order, user_Pet_Name);
+                } else {
+                    System.out.println("Sorry, you don't have created any pet with this name.");
+                    this.pet_Settings_Frontend();
+                }
+                break;
+            default:
+                System.out.println("Sorry, you are run out of options.");
         }
     }
     public static void main(String[] args) {        
